@@ -1,45 +1,47 @@
-var itemName = document.getElementById("item-name-input");
-var itemQuantity = document.getElementById("item-qty-input");
-var itemPrice = document.getElementById("item-price-input");
- 
-var tbody = document.querySelector("tbody");
- 
-var grandTotal = document.getElementById("total");
-var grand_total = 0;
- 
-var addItem = document.querySelector("#add");
- 
-addItem.addEventListener("click", (event) => {
-  event.preventDefault();
- 
-  let newRow = document.createElement("tr");
- 
-  let name = document.createElement("td");
-  name.innerText = itemName.value;
-  name.classList.add("item");
-  newRow.append(name);
- 
-  let price = document.createElement("td");
-  price.innerText = itemPrice.value;
-  newRow.append(price);
-  price.classList.add("price");
- 
-  let quantity = document.createElement("td");
-  quantity.innerText = itemQuantity.value;
-  newRow.append(quantity);
- 
-  if (itemName.value && itemQuantity.value && itemPrice.value) {
-    let total = document.createElement("td");
-    total.innerText = itemPrice.value * itemQuantity.value;
-    newRow.append(total);
- 
-    tbody.append(newRow);
- 
-    grand_total += Number(total.innerText);
-    grandTotal.innerHTML = "Grand Total: ₹ " + grand_total;
+function insertItem() {
+  var name_elem=document.getElementById("item-name-input");
+  var name=name_elem.value;
+  var price_elem=document.getElementById("item-price-input");
+  var price=parseInt(price_elem.value);
+
+  name_elem.value='';
+  price_elem.value='';
+
+  if(name=='' || isNaN(price)){
+      return;
   }
- 
-  itemName.value = "";
-  itemQuantity.value = "";
-  itemPrice.value = "";
-});
+  
+  var newRow=document.createElement('tr');
+  var td1=document.createElement('td');
+  var td2=document.createElement('td');
+  var td3=document.createElement('td');
+
+  let sr_elem=document.querySelectorAll('[data-type=sr_no]');
+  let counter=sr_elem.length;
+
+  td1.innerText=counter+1; //todo fixed
+  td2.innerText=name;
+  td3.innerText=price;
+
+  td1.dataset.type="sr_no";
+  td2.dataset.nsTest="item-name";
+  td3.setAttribute("data-ns-test","item-price");
+
+  newRow.appendChild(td1);
+  newRow.appendChild(td2);
+  newRow.appendChild(td3);
+
+  let mainTable=document.getElementsByTagName('table')[0];
+  mainTable.appendChild(newRow);
+
+  let grandTotal=0;
+  let price_elements = document.querySelectorAll('[data-ns-test=item-price]');
+  price_elements.forEach((single_price_element) => {
+      let single_price=single_price_element.innerText;
+      single_price=parseInt(single_price);
+      grandTotal+=single_price;
+  });
+
+  document.querySelector('[data-ns-test=grandTotal]').innerText=grandTotal;
+  
+}
