@@ -1,16 +1,8 @@
 let grandtotal = 0;
 const addData = () => {
-  console.log("add fucntion caled");
   let name = document.getElementById('item-name-input').value;
   let qty = document.getElementById('item-qty-input').value;
   let price = document.getElementById('item-price-input').value;
-  //check function is the above values are empty or not.
-  function isEmpty(val){
-    return (val === undefined || val == null || val.length <= 0) ? true : false;
-  }
-  isEmpty(name);
-  isEmpty(qty);
-  isEmpty(price);
   let table = document.getElementById('table1');
   let newRow = table.insertRow(table.rows.length - 1);
   let namecell = newRow.insertCell(0);
@@ -29,3 +21,6 @@ const addData = () => {
 }
 
 module.exports = addData;
+let btn =document.getElementById("add");
+
+btn.addEventListener('click', addData);
